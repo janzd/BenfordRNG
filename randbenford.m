@@ -4,7 +4,8 @@ function numbers = randbenford(length, max, min, prob_method, artificial)
 % datasets.
 % INPUT:        
 %   length:         The length of the array to be generated.
-%   min:            The minimum possible value to be generated.
+%   min:            The minimum possible value to be generated. The value
+%                   cannot be negative.
 %   max:            The maximum possible value to be generated.
 %   prob_method:    The method to be used for distribution of
 %                   generated values over the whole range defined by min
@@ -26,6 +27,9 @@ function numbers = randbenford(length, max, min, prob_method, artificial)
 %                           are used to select one of the bins whose sizes
 %                           match the percentages of occurrences according
 %                           to Benford's Law.
+%
+% OUTPUT:
+%   numbers:        Array of generated numbers.
 
 if nargin < 5
     if min == 0
@@ -50,6 +54,12 @@ end
 if artificial == 0 && min > 0
     disp('Minimum possible value is higher than 0. Using the artificial method instead.');
     artificial = 1;
+end
+
+if prob_method > 1
+    disp('Wrong probability method selection. Use help command to see supported methods.');
+    disp('Using method #0');
+    prob_method = 0;
 end
 
 if artificial == 0
@@ -116,7 +126,11 @@ function probabilities = getprobs(num_of_digits, min, max, prob_method)
 % Creates an array of probabilities of termination of generation process
 % for each order of magnitude.
 probabilities = zeros(1, num_of_digits);
-min_num_of_digits = floor(log10(min) + 1);
+if min == 0
+    min_num_of_digits = 1;
+else
+    min_num_of_digits = floor(log10(min) + 1);
+end
 for i = min_num_of_digits:num_of_digits
     if prob_method == 0
         probabilities(i) =  (1 / (num_of_digits - min_num_of_digits + 1));
