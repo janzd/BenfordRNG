@@ -35,6 +35,7 @@ The function takes several parameters. All of them are optional, but you probabl
 `artificial`
 > The method to be used for number generation if min = 0. If min > 0, the method is always artificial.
 > > 0 --    Natural method, randomly generated numbers in the range from 0 to 1 are used to create log-uniform distribution.
+
 > > 1 --    Artificial method, randomly generated numbers are used to select one of the bins whose sizes match the percentages of occurrences according to Benford's Law.
 
 #### Notes
